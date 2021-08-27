@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/users');
 const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
+const API = require('../constants/APIstore');
 const {
   registerValidation,
   loginValidation,
@@ -105,7 +106,7 @@ router.post('/register', async (req, res) => {
       {
         _id: user._id,
       },
-      process.env.TOKEN_SECRET
+      API.TOKENSECRET
     );
     res.json({
       user: user._id,
@@ -141,7 +142,7 @@ router.post('/login', async (req, res) => {
     {
       _id: user._id,
     },
-    process.env.TOKEN_SECRET
+    API.TOKENSECRET
   );
   res.json({
     name: user.name,

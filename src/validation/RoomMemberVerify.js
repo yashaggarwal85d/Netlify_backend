@@ -1,14 +1,15 @@
-const JWT = require("jsonwebtoken");
-const Room = require("../models/rooms");
+const JWT = require('jsonwebtoken');
+const Room = require('../models/rooms');
+const API = require('../constants/APIstore');
 
 module.exports = async function (req, res, next) {
-  const token = req.header("auth-token");
+  const token = req.header('auth-token');
   if (!token) {
-    return res.status(401).send("Access Denied");
+    return res.status(401).send('Access Denied');
   }
 
   try {
-    const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+    const verifiedId = JWT.verify(token, API.TOKENSECRET);
     req.user = verifiedId;
     const room = await Room.findById(req.params.RoomId);
     var f = 0;
@@ -16,8 +17,8 @@ module.exports = async function (req, res, next) {
       if (member.id === verifiedId._id) f = 1;
     }
     if (f) next();
-    else return res.status(401).send("Access Denied");
+    else return res.status(401).send('Access Denied');
   } catch (err) {
-    res.status(400).send("Invalid Token");
+    res.status(400).send('Invalid Token');
   }
 };

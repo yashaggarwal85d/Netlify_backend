@@ -49,7 +49,7 @@ module.exports = (io) => {
   io.on('connection', (socket) => {
     socket.on('connectedUser', async (token) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const user = await User.findById(verifiedId._id);
         if (!verifiedId || !user) {
           socket.emit('error', 'Access Denied');
@@ -73,7 +73,7 @@ module.exports = (io) => {
     });
     socket.on('checkOnline', async (token, userId) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         if (!verifiedId) {
           socket.emit('error', 'Access Denied');
         } else {
@@ -88,7 +88,7 @@ module.exports = (io) => {
     });
     socket.on('setPublickey', async (token, pk) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         if (!verifiedId) {
           socket.emit('error', 'Access Denied');
         } else {
@@ -110,7 +110,7 @@ module.exports = (io) => {
     });
     socket.on('UpdatelastMessageReadIndex', async (roomId, token) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         if (!verifiedId) {
           socket.emit('error', 'Access Denied');
         } else {
@@ -142,7 +142,7 @@ module.exports = (io) => {
 
     socket.on('message', async (roomId, token, messageBody, spk) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const user = await User.findById(verifiedId._id);
         const room = await Room.findById(roomId);
         var f = 0;
@@ -195,7 +195,7 @@ module.exports = (io) => {
     });
     socket.on('addPrompt', async (roomId, token, messageBody, spk) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const user = await User.findById(verifiedId._id);
         const room = await Room.findById(roomId);
         var f = 0;
@@ -252,7 +252,7 @@ module.exports = (io) => {
 
     socket.on('addImage', async (roomId, token, ImageData, spk) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const user = await User.findById(verifiedId._id);
         const room = await Room.findById(roomId);
         var f = 0;
@@ -304,7 +304,7 @@ module.exports = (io) => {
 
     socket.on('newGroup', async (token, roomId) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         if (!verifiedId) {
           socket.emit('error', 'Access Denied');
         } else {
@@ -331,7 +331,7 @@ module.exports = (io) => {
 
     socket.on('leaveGroup', async (token, roomId) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -373,7 +373,7 @@ module.exports = (io) => {
 
     socket.on('addMember', async (token, roomId, memberId) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -467,7 +467,7 @@ module.exports = (io) => {
 
     socket.on('removeMember', async (token, roomId, memberId) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -517,7 +517,7 @@ module.exports = (io) => {
 
     socket.on('profile_pic', async (token, url) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         if (!verifiedId) {
           socket.emit('error', 'Access Denied');
         } else {
@@ -567,7 +567,7 @@ module.exports = (io) => {
 
     socket.on('roomProfile_pic', async (token, roomId, url) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -604,7 +604,7 @@ module.exports = (io) => {
 
     socket.on('roomNameDesc', async (token, roomId, name, description) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -644,7 +644,7 @@ module.exports = (io) => {
       'registerForPushNotifications',
       async (token, NotificationToken) => {
         try {
-          const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+          const verifiedId = JWT.verify(token, API.TOKENSECRET);
           const UpdatedUser = await User.updateOne(
             { _id: verifiedId._id },
             {
@@ -662,7 +662,7 @@ module.exports = (io) => {
 
     socket.on('PushMessagesToBlockchain', async (roomId, token) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
         for (const member of room.members) {
@@ -729,7 +729,7 @@ module.exports = (io) => {
 
     socket.on('PullMessagesFromBlockchain', async (roomId, token, status) => {
       try {
-        const verifiedId = JWT.verify(token, process.env.TOKEN_SECRET);
+        const verifiedId = JWT.verify(token, API.TOKENSECRET);
         const room = await Room.findById(roomId);
         var f = 0;
 
