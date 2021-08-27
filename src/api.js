@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const serverless = require('serverless-http');
 const bodyparser = require('body-parser');
 const compression = require('compression');
-require('dotenv/config');
 
 const app = express();
 
